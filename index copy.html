@@ -13,13 +13,38 @@
     #cocktailInput {
         width: 20%;
     }
+
+    /* .cocktail {
+        font-weight: bold;
+    } */
+
+    body {
+        background-image: url("https://lp-cms-production.imgix.net/2019-06/GettyImages-147189497_medium.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 </style>
 
 <body>
+    <nav>
+        <div class="nav-wrapper indigo">
+        <div class="container ">
+          <a class="brand-logo">Boteco Virtual</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="fun.html">Create your own Recipes</a></li>
+            <li><a href="collapsible.html">Create your own Cocktails</a></li>
+          </ul>
+        </div>
+        </div>
+      </nav>
     <label for="">Pesquisa de Cóctel</label>
-    <input id="cocktailInput" type="text" value="">
+    <input id="cocktailInput" onfocus="this.value=''" type="text" value="">
     <button id="cocktailSearch">Search</button>
-    <div class="drink-hits">Drink Hits</div>
+    <div class="container">
+        <h6 class="drink-hits">Drink Hits</h6>
+    </div>
+    
 
 </body>
 <script>
@@ -44,10 +69,16 @@
             // drink.empty();
             // drink.text("");
       
+            
+            // How do I add the different ingredients
+            // How do add style to objects from the console in line 64 like "cocktail"
             for (var i = 0; i < response.drinks.length; i++) {
                 var drinkHits = $(".drink-hits");
                 var drink = $("<div>");
-                drink.text(response.drinks[i]);
+                var cocktail = response.drinks[i].strDrink;
+                var instructions = response.drinks[i].strInstructions;
+                // cocktail.addClass("cocktail");
+                drink.text("This is how you make a " + cocktail + ": " + instructions);
                 drinkHits.append(drink);
             }
 

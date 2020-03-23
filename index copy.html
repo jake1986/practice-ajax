@@ -13,39 +13,50 @@
     #cocktailInput {
         width: 20%;
     }
+     .cocktail-image {
+       width: 20%;
+       
+    }
 
-    /* .cocktail {
-        font-weight: bold;
-    } */
+   /* .images {
+       max-width: 250px;
+       min-width: 150px;
+   } */
 
     body {
-        background-image: url("https://lp-cms-production.imgix.net/2019-06/GettyImages-147189497_medium.jpg");
+        background-image: url("https://images.unsplash.com/photo-1507125524815-d9d6dccda1dc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60");
+        background-size: 100%;
         background-repeat: no-repeat;
-        background-size: cover;
+        /* background-position: left center; */
+        /* background-size: 100%; */
     }
+
 </style>
 
 <body>
-    <nav>
-        <div class="nav-wrapper indigo">
-        <div class="container ">
-          <a class="brand-logo">Boteco Virtual</a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="fun.html">Create your own Recipes</a></li>
-            <li><a href="collapsible.html">Create your own Cocktails</a></li>
-          </ul>
+    <div class="background-container">
+        <nav>
+            <div class="nav-wrapper indigo">
+            <div class="container ">
+              <a class="brand-logo">Boteco Virtual</a>
+              <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fun.html">Create your own Recipes</a></li>
+                <li><a href="collapsible.html">Create your own Cocktails</a></li>
+              </ul>
+            </div>
+            </div>
+          </nav>
+        <label for="">Pesquisa de Cóctel</label>
+        <input id="cocktailInput" onfocus="this.value=''" type="text" value="">
+        <button id="cocktailSearch">Search</button>
+        <div class="container">
+            <h6 class="drink-hits">Drink Hits</h6>
         </div>
+        <div class="images">
+            
         </div>
-      </nav>
-    <label for="">Pesquisa de Cóctel</label>
-    <input id="cocktailInput" onfocus="this.value=''" type="text" value="">
-    <button id="cocktailSearch">Search</button>
-    <div class="container">
-        <h6 class="drink-hits">Drink Hits</h6>
     </div>
-    
-
 </body>
 <script>
 
@@ -57,29 +68,31 @@
         console.log(cocktailName);
         var drinkQueryURL = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + cocktailName;
 
+        $(".drink-hits").empty();
+        $(".card").empty();
+
         $.ajax({
             url: drinkQueryURL,
             method: "GET"
         }).then(function (response) {
             console.log(response);
-            // Trying to get drinks options to disappear when new search is done. 
-            // Do the searched items need to be list items? Was trying code 
-            // on lines 43-45 to clear the drink divs
-            // drinkHits.empty();
-            // drink.empty();
-            // drink.text("");
-      
-            
-            // How do I add the different ingredients
-            // How do add style to objects from the console in line 64 like "cocktail"
+          
             for (var i = 0; i < response.drinks.length; i++) {
                 var drinkHits = $(".drink-hits");
                 var drink = $("<div>");
                 var cocktail = response.drinks[i].strDrink;
                 var instructions = response.drinks[i].strInstructions;
-                // cocktail.addClass("cocktail");
+                
                 drink.text("This is how you make a " + cocktail + ": " + instructions);
                 drinkHits.append(drink);
+                var card = $(".images");
+                var image = $("<img>");
+                
+                var choice = response.drinks[i].strDrinkThumb;
+                image.attr("src", choice);
+                image.addClass("cocktail-image");
+                card.append(image);
+
             }
 
         });

@@ -37,10 +37,13 @@
             method: "GET"
         }).then(function (response) {
             console.log(response);
-            var drinkHits = $(".drink-hits");
-            var drink = $("<div>");
-           drink.text(response.drinks);
-           drinkHits.append(drink);
+      
+            for (var i = 0; i < response.drinks.length; i++) {
+                var drinkHits = $(".drink-hits");
+                var drink = $("<div>");
+                drink.text(response.drinks[i]);
+                drinkHits.append(drink);
+            }
 
         });
     })

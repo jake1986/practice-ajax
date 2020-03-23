@@ -37,6 +37,12 @@
             method: "GET"
         }).then(function (response) {
             console.log(response);
+            // Trying to get drinks options to disappear when new search is done. 
+            // Do the searched items need to be list items? Was trying code 
+            // on lines 43-45 to clear the drink divs
+            // drinkHits.empty();
+            // drink.empty();
+            // drink.text("");
       
             for (var i = 0; i < response.drinks.length; i++) {
                 var drinkHits = $(".drink-hits");

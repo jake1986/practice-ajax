@@ -23,14 +23,30 @@
        min-width: 150px;
    } */
 
-    body {
+   .background-container {
         background-image: url("https://images.unsplash.com/photo-1507125524815-d9d6dccda1dc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60");
-        background-size: 100%;
+        background-size: cover;
         background-repeat: no-repeat;
-        /* background-position: left center; */
-        /* background-size: 100%; */
-    }
+        position: absolute;
+        width: 100%;
+        height: 100%;
+   }
 
+   .history-list {
+       display: block;
+       list-style-type: none;
+       /* margin-left: 10px;
+       float: left; */
+}
+   
+
+   /* .drink-history {
+       float: left;
+   }
+
+   .container {
+       clear: both;
+   } */ 
 </style>
 
 <body>
@@ -47,12 +63,25 @@
             </div>
             </div>
           </nav>
-        <label for="">Pesquisa de Cóctel</label>
-        <input id="cocktailInput" onfocus="this.value=''" type="text" value="">
-        <button id="cocktailSearch">Search</button>
+        <div class="search-container">
+            <label for="">Pesquisa de Cóctel</label>
+            <input id="cocktailInput" onfocus="this.value=''" type="text" value="">
+            <button id="cocktailSearch">Search</button>
+         </div>
+       
+        <ul class="drink-history">
+
+        </ul>
         <div class="container">
             <h6 class="drink-hits">Drink Hits</h6>
         </div>
+        <!-- <div class="carousel images">
+            <a class="carousel-item" id="one"></a>
+            <a class="carousel-item" id="two"></a>
+            <a class="carousel-item" id="three"></a>
+            <a class="carousel-item" id="four"></a>
+            <a class="carousel-item" id="five"></a>
+          </div> -->
         <div class="images">
             
         </div>
@@ -60,6 +89,12 @@
 </body>
 <script>
 
+    
+        $(document).ready(function () {
+                $('.carousel').carousel();
+        
+            });
+    
     var cocktailSearch = $("#cocktailSearch");
 
     cocktailSearch.on("click", function () {
@@ -69,15 +104,16 @@
         var drinkQueryURL = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + cocktailName;
 
         $(".drink-hits").empty();
-        $(".card").empty();
+        $(".images").empty();
 
         $.ajax({
             url: drinkQueryURL,
             method: "GET"
         }).then(function (response) {
             console.log(response);
+            var arrLength = Math.min(response.drinks.length, 5);
           
-            for (var i = 0; i < response.drinks.length; i++) {
+            for (var i = 0; i < arrLength; i++) {
                 var drinkHits = $(".drink-hits");
                 var drink = $("<div>");
                 var cocktail = response.drinks[i].strDrink;
@@ -91,9 +127,18 @@
                 var choice = response.drinks[i].strDrinkThumb;
                 image.attr("src", choice);
                 image.addClass("cocktail-image");
+                var carouselItem = $(".carousel-item");
+                // originally appended to card
                 card.append(image);
 
             }
+
+            var drinkHistory = $(".drink-history");
+            var li = $("<li>");
+            li.text(cocktailName);
+            li.addClass("history-list");
+            drinkHistory.append(cocktailName)
+
 
         });
     })
